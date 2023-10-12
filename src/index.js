@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Reset } from 'styled-reset';
 import { Global } from '@emotion/react';
 import { GSCommon } from './Styles/Global/Common';
+import { QueryClientProvider } from 'react-query';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

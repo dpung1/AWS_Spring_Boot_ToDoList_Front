@@ -5,12 +5,13 @@ import Signup from './pages/Signup/Signup';
 import RootLayout from './Components/Layout/RootLayout/RootLayout';
 import Singin from './pages/Singin/Singin';
 import Main from './pages/Main/Main';
+import AuthRouter from './auth/AuthRouter';
 
 function App() {
   return (
     <RootLayout>
       <Routes>
-        <Route path='/' element={ <Main /> }/>
+        <Route path='/' element={ <AuthRouter element={ <Main /> } /> }/>
         <Route path='/auth/signup' element={ <Signup /> }/>
         <Route path='/auth/signin' element={ <Singin /> }/>
       </Routes>

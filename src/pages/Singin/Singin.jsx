@@ -25,7 +25,6 @@ function Singin(props) {
     const SinguinSubmitOnClick = async () => {
         try {
             const response = await axios.post("http://localhost:8080/auth/signin", signinUser);
-            console.log(response);
             localStorage.setItem("accessToken", "Bearer " + response.data);
             alert("로그인 성공!!");
             navigate("/")
