@@ -7,15 +7,19 @@ import { BrowserRouter } from 'react-router-dom';
 import { Reset } from 'styled-reset';
 import { Global } from '@emotion/react';
 import { GSCommon } from './Styles/Global/Common';
-import { QueryClientProvider } from 'react-query';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const queryClients = new QueryClient();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <BrowserRouter>
-    <Global styles={GSCommon} />
-    <Reset />
-    <App />
-  </BrowserRouter>
+  <QueryClientProvider client={queryClients}>
+    <BrowserRouter>
+      <Global styles={GSCommon} />
+      <Reset />
+      <App />
+    </BrowserRouter>
+  </QueryClientProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

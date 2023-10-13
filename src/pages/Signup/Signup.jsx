@@ -3,11 +3,9 @@ import React, { useState } from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import * as S from "./Style"
-import { useNavigate } from 'react-router-dom';
 
 
 function Signup(props) {
-    const navigate = useNavigate();
 
     const [ signupUser, setSingupUser ] = useState({
         email: "",
@@ -28,7 +26,7 @@ function Signup(props) {
         try {
             await axios.post("http://localhost:8080/auth/signup", signupUser);
             alert("회원가입 성공!!")
-            navigate("/auth/signin")
+            window.location.replace("/auth/signin")
         } catch(error) {
             const responseErrors = error.response.data;
             const keys = Object.keys(responseErrors);  

@@ -1,24 +1,47 @@
 import axios from 'axios';
-import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 
 function AuthRouter({ element }) {
 
+    const navigate = useNavigate();
     const loaction = useLocation();
     const pathname = loaction.pathname;
     const premitAllpath = ["/auth"];
+    const [ elementState, setElementState ] = useState(<></>);
 
     useEffect(() => {
         const option = {
             headers: {
-                Authorication: localStorage.getItem("acccessToken")
+                Authorization: localStorage.getItem("accessToken")
             }
         }
-        axios.get("http://localhost:8080/auth/authenticated", option);
-        
-    }, [])
+        axios.get("http://localhost:8080/authenticated", option)
+        .then((response) => {
+            for(let path of premitAllpath) {
+                if(pathname.startsWith(path)) {
+                    navigate("/");
+                }
+            }
+        })
+        .catch((error) => {
+            let flag = false;
 
-    return element
+            for(let path of premitAllpath) {
+                if(pathname.startsWith(path)) {
+                    flag = true
+                }
+            }
+            if(!flag) {
+                navigate("/auth/signin");
+            } 
+        })
+        .finally(() => {
+            setElementState(element);
+        })
+    }, [elementState])
+
+    return elementState;
 }
 
 export default AuthRouter;

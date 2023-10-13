@@ -17,10 +17,10 @@ export const SHeader = css`
     padding: 5px;
 `;
 
-export const SInputBox = css`
+export const SAddToDoBox = css`
     padding: 5px;
 `;
 
-export const SButtonBox = css`
-    padding: 5px;
+export const SButton = css`
+    margin: 5px;
 `;

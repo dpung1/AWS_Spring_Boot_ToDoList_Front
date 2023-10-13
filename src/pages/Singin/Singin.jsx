@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import * as S from "./Style"
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function Singin(props) {
-    const navigate = useNavigate();
 
     const [ signinUser, setSigninUser ] = useState({
         email: "",
@@ -27,7 +25,7 @@ function Singin(props) {
             const response = await axios.post("http://localhost:8080/auth/signin", signinUser);
             localStorage.setItem("accessToken", "Bearer " + response.data);
             alert("로그인 성공!!");
-            navigate("/")
+            window.location.replace("/");
         } catch(error) {
             const responseErrors = error.response.data;
             const keys = Object.keys(responseErrors)
