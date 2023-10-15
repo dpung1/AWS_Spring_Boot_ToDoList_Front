@@ -21,6 +21,22 @@ export const SAddToDoBox = css`
     padding: 5px;
 `;
 
+export const SUpdateInput = css`
+    margin: 5px;
+`;
+
 export const SButton = css`
     margin: 5px;
+`;
+
+export const SDeleteButton = css`
+    margin: 5px;
+    background-color: red;
+    color: white;
+`;
+
+export const SUpdateButton = css`
+    margin: 5px;
+    background-color: green;
+    color: white;
 `;

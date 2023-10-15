@@ -4,11 +4,13 @@ import { css } from "@emotion/react";
 import * as S from "./Style"
 import axios from 'axios';
 import { useQuery } from 'react-query';
+import jwt_decode from 'jwt-decode';
 
 function Main(props) {
     const [ content, setContent ] = useState();
     const [ updateToDoState, setUpdateToDoState ] = useState(0);
     const [ updateContent, setUpdateContent ] = useState("")
+    const [ username, setUsername ] = useState("")
 
     const todoList = useQuery(["todoList"], async () => {
         const option = {
@@ -16,7 +18,10 @@ function Main(props) {
                 Authorization: localStorage.getItem("accessToken")
             }
         }
-        
+
+        let decode = jwt_decode(option.headers.Authorization.substring(7))
+        setUsername(decode.email)
+
         try {
             const response = await axios.get("http://localhost:8080/todo/list", option)
             return response
@@ -84,6 +89,7 @@ function Main(props) {
     return (
         <div css={S.SContainer}>
             <h1 css={S.SHeader}>ToDoList</h1>
+            <div>User : {username} </div>
             <div>
                 <div css={S.SAddToDoBox}>
                     <input type='text' name='text' placeholder='ToDo' onChange={ContentInputOnchange}/>
@@ -92,12 +98,12 @@ function Main(props) {
             </div>
             <ul>
                 {todoList.isLoading ? "" : todoList?.data?.data.map(todo => 
-                    <li key={todo.todoId}>{todo.content}
+                    <li key={todo.todoId}> 할일 : {todo.content}
                         {
-                            updateToDoState ===todo.todoId && (
+                            updateToDoState === todo.todoId && (
                                 <>
-                                    <input type='text' value={updateContent} onChange={UpdateContentInputOnChange}/>
-                                    <button onClick={() => {
+                                    <input type='text'  css={S.SUpdateInput} value={updateContent} onChange={UpdateContentInputOnChange}/>
+                                    <button css={S.SButton} onClick={() => {
                                         if(todo.content !== updateContent) {
                                             UpdateToDoSubmitOnCliCk(todo.todoId)
                                         }
@@ -109,17 +115,17 @@ function Main(props) {
                         }
                         {
                             updateToDoState !== todo.todoId 
-                            ? <button onClick={() => { 
+                            ? <button css={S.SUpdateButton} onClick={() => { 
                                 setUpdateToDoState(todo.todoId);
                                 setUpdateContent(todo.content);
                             }}>수정</button>
 
-                            : <button onClick={() => { 
+                            : <button css={S.SButton} onClick={() => { 
                                 setUpdateToDoState(0); 
                                 setUpdateContent("");
                             }}>취소</button>
                         }
-                        <button onClick={() => {DeleteToDoOnClick(todo.todoId)}}>삭제</button>
+                        <button css={S.SDeleteButton} onClick={() => {DeleteToDoOnClick(todo.todoId)}}>삭제</button>
                     </li>
                 )} 
             </ul>
